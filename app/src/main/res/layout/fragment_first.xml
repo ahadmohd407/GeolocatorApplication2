@@ -1,19 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.geolocatorapp.FirstFragment">
-
-    <!--TextView and Button displayed in First Fragment -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="This is Home Screen"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
-
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <Button
         android:id="@+id/firstButton"
         android:layout_width="fill_parent"
@@ -22,11 +10,56 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@color/green"
-        android:text="Home"
+        android:text="HOME"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
-</RelativeLayout>
+
+    <TextView
+        android:textSize="20sp"
+        android:background="#0000FF"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="RANDOM IMAGE"
+        android:textAppearance="@color/black"
+
+        android:gravity="center_horizontal"/>
+
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+    <!--TextView and Button displayed in First Fragment -->
+
+    <SearchView
+        android:background="@color/green"
+        android:id="@+id/searchView"
+        android:layout_weight="0.9"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:outlineAmbientShadowColor="#F44336"
+        />
+
+    <ImageButton
+        android:background="@color/green"
+        android:layout_weight="0.1"
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:src="@android:drawable/ic_menu_send"
+        android:tint="#000000"
+         />
+</LinearLayout>
+    <TextView
+        android:textSize="20sp"
+        android:background="#FFFF00"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="MAP AREA"
+        android:textAppearance="@color/black"
+        android:gravity="center_horizontal"/>
+
+
+</LinearLayout>
 
 
 
