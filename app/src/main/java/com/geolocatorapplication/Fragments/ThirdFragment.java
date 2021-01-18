@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.abhiandroid.fragmentexample.R;
-
+import com.geolocatorapplication.R;
 //import com.abhiandroid.fragmentexample.R;
 
 public class ThirdFragment extends Fragment {

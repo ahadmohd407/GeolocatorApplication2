@@ -1,65 +1,64 @@
-<LinearLayout android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+    android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <Button
-        android:id="@+id/firstButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/green"
-        android:text="HOME"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+<!--    <Button-->
+<!--        android:id="@+id/firstButton"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:background="@color/green"-->
+<!--        android:text="HOME"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textStyle="bold" />-->
+<!--    <TextView-->
+<!--        android:textSize="20sp"-->
+<!--        android:background="#0000FF"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:text="RANDOM IMAGE"-->
+<!--        android:textAppearance="@color/black"-->
 
-    <TextView
-        android:textSize="20sp"
-        android:background="#0000FF"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="RANDOM IMAGE"
-        android:textAppearance="@color/black"
+<!--        android:gravity="center_horizontal"/>-->
 
-        android:gravity="center_horizontal"/>
+<!--    <LinearLayout android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:orientation="horizontal">-->
+<!--    &lt;!&ndash;TextView and Button displayed in First Fragment &ndash;&gt;-->
 
-    <LinearLayout android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
-    <!--TextView and Button displayed in First Fragment -->
+<!--    <SearchView-->
+<!--        android:background="@color/green"-->
+<!--        android:id="@+id/searchView"-->
+<!--        android:layout_weight="0.9"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="63dp"-->
+<!--        android:outlineAmbientShadowColor="#F44336"-->
+<!--        />-->
 
-    <SearchView
-        android:background="@color/green"
-        android:id="@+id/searchView"
-        android:layout_weight="0.9"
-        android:layout_width="0dp"
-        android:layout_height="63dp"
-        android:outlineAmbientShadowColor="#F44336"
-        />
-
-    <ImageButton
-        android:background="@color/green"
-        android:layout_weight="0.1"
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="63dp"
-        android:src="@android:drawable/ic_menu_send"
-        android:tint="#000000"
-         />
-</LinearLayout>
-    <TextView
-        android:textSize="20sp"
-        android:background="#FFFF00"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="MAP AREA"
-        android:textAppearance="@color/black"
-        android:gravity="center_horizontal"/>
+<!--    <ImageButton-->
+<!--        android:background="@color/green"-->
+<!--        android:layout_weight="0.1"-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="63dp"-->
+<!--        android:src="@android:drawable/ic_menu_send"-->
+<!--        android:tint="#000000"-->
+<!--         />-->
+<!--</LinearLayout>-->
+<!--    <TextView-->
+<!--        android:textSize="20sp"-->
+<!--        android:background="#FFFF00"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:text="MAP AREA"-->
+<!--        android:textAppearance="@color/black"-->
+<!--        android:gravity="center_horizontal"/>-->
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
