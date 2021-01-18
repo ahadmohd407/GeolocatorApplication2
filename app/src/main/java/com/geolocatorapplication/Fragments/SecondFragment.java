@@ -1,4 +1,5 @@
-package com.geolocatorapplication;
+package com.geolocatorapplication.Fragments;
+
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,33 +13,30 @@ import com.abhiandroid.fragmentexample.R;
 
 //import com.abhiandroid.fragmentexample.R;
 
-public class FirstFragment extends Fragment {
 
+public class SecondFragment extends Fragment {
 
     View view;
-    Button firstButton;
+    Button secondButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_first, container, false);
+        view = inflater.inflate(R.layout.fragment_second, container, false);
 // get the reference of Button
-        firstButton = (Button) view.findViewById(R.id.firstButton);
-// perform setOnClickListener on first Button
-        firstButton.setOnClickListener(new View.OnClickListener() {
+        secondButton = (Button) view.findViewById(R.id.secondButton);
+// perform setOnClickListener on second Button
+        secondButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 // display a message by using a Toast
-                Toast.makeText(getActivity(), "First Fragment", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Second Fragment", Toast.LENGTH_LONG).show();
             }
         });
         return view;
     }
 }
-
-
-
 
 
 

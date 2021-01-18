@@ -1,4 +1,4 @@
-package com.geolocatorapplication;
+package com.geolocatorapplication.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;

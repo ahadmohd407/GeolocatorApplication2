@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.abhiandroid.fragmentexample.R;
+import com.geolocatorapplication.Fragments.FirstFragment;
+import com.geolocatorapplication.Fragments.SecondFragment;
+import com.geolocatorapplication.Fragments.ThirdFragment;
 
 public class MainActivity extends AppCompatActivity {
 
