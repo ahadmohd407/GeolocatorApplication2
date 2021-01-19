@@ -1,27 +1,25 @@
 package com.geolocatorapplication;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
 
 import com.geolocatorapplication.Fragments.FirstFragment;
+import com.geolocatorapplication.Fragments.MapsFragment;
+import com.geolocatorapplication.Fragments.SearchFragment;
 import com.geolocatorapplication.Fragments.SecondFragment;
 import com.geolocatorapplication.Fragments.ThirdFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     FirstFragment firstFragment;
     SecondFragment secondFragment;
     ThirdFragment thirdFragment;
-//    LinearLayout profile,favourites,search,home;
-
+    MapsFragment mapFragment;
+    SearchFragment searchFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,39 +27,42 @@ public class MainActivity extends AppCompatActivity {
         firstFragment = new FirstFragment();
         thirdFragment=new ThirdFragment();
         secondFragment=new SecondFragment();
-        loadFragment(firstFragment);
-//        profile=findViewById(R.id.profile);
-//        favourites=findViewById(R.id.favorites);
-//        search=findViewById(R.id.search);
-//        home=findViewById(R.id.home);
-//        home.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                loadFragment(firstFragment);
-//            }
-//        });
-//        favourites.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                loadFragment(secondFragment);
-//            }
-//        });
-//        profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                loadFragment(thirdFragment);
-//            }
-//        });
+        searchFragment=new SearchFragment();
+        mapFragment=new MapsFragment();
+        loadFragment(mapFragment);
+        BottomNavigationView bottomNavigationView=findViewById(R.id.navigation_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment selected=null;
+                        switch (item.getItemId()){
+
+                            case R.id.home:
+                                selected=mapFragment;
+                                break;
+                            case R.id.favorites:
+                                selected=secondFragment;
+                                break;
+                            case R.id.profile:
+                                selected=thirdFragment;
+                                break;
+                            case R.id.search:
+                                  selected=searchFragment;
+                                 break;
+                        }
+                        loadFragment(selected);
+
+                        return true;
+                    }
+                }
+        );
 
     }
 
+
     private void loadFragment(Fragment fragment) {
-// create a FragmentManager
-        FragmentManager fm = getFragmentManager();
-// create a FragmentTransaction to begin the transaction and replace the Fragment
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-// replace the FrameLayout with new Fragment
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit(); // save the changes
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,fragment).commit();
+
     }
 }
