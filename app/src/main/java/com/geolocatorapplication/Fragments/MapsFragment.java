@@ -44,9 +44,10 @@ public class MapsFragment extends Fragment {
                     mMap.clear();
                     LatLng userLoc = new LatLng(location.getLatitude(), location.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(userLoc).title("Your Location"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,15));
-                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(userLoc));
+                    mMap.animateCamera(CameraUpdateFactory.zoomBy(15));
+
+//                    mMap.animateCamera(CameraUpdateFactory.zoomBy(15), 2000, null);
                 }
             };
             if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
@@ -56,11 +57,18 @@ public class MapsFragment extends Fragment {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener );
                 Location lastLocation=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 mMap.clear();
-                LatLng userLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(userLoc).title("Your Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,15));
-                mMap.animateCamera(CameraUpdateFactory.zoomIn());
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
+                try {
+                    LatLng userLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(userLoc).title("Your Location"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,15));
+                    mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
 
