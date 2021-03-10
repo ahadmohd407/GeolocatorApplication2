@@ -1,16 +1,14 @@
 package com.geolocatorapplication.Fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridLayout;
 
 import com.geolocatorapplication.Adapters.RestaurantAdapter;
 import com.geolocatorapplication.R;
@@ -19,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
+
     SearchView searchView;
     List<String> names;
     RecyclerView recyclerView;
