@@ -21,7 +21,7 @@ public class DetailsFragment extends Fragment {
     String restName;
     String restAdd;
     View view;
-    Button secondButton;
+    Button SecondButton;
 
 
 
@@ -38,7 +38,7 @@ public class DetailsFragment extends Fragment {
         TextView restaurantsTimings = view.findViewById(R.id.restaurantTimings);
 
         final FirebaseFirestore db= FirebaseFirestore.getInstance();
-        // get value from search  fragment
+        // get value from search  fragment like doon darbar
         //restaurantsTimings.setText("My Awesome Text");
         final String value = getArguments().getString("Location");
 
