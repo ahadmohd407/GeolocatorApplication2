@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "533557367424",
+    "project_id": "geolocator-application-5204d",
+    "storage_bucket": "geolocator-application-5204d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533557367424:android:ed7da23a5b926c48e28c65",
+        "android_client_info": {
+          "package_name": "com.geolocatorapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533557367424-gju4dlsp9v8d2m4sr2bsphehl93m3np6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGlACDTf4DeqemydQYiSlAqzzxp9_rKRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533557367424-gju4dlsp9v8d2m4sr2bsphehl93m3np6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

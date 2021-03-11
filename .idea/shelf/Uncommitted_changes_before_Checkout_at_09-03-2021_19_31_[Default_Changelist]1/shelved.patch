@@ -1,0 +1,424 @@
+Index: app/src/main/java/com/geolocatorapplication/Fragments/SearchFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/Fragments/SearchFragment.java	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/src/main/java/com/geolocatorapplication/Fragments/SearchFragment.java	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
+@@ -1,24 +0,0 @@
+-package com.geolocatorapplication.Fragments;
+-
+-import android.os.Bundle;
+-
+-import androidx.fragment.app.Fragment;
+-
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-
+-import com.geolocatorapplication.R;
+-public class SearchFragment extends Fragment {
+-
+-    public SearchFragment() {
+-        // Required empty public constructor
+-    }
+-
+-    @Override
+-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+-                             Bundle savedInstanceState) {
+-        // Inflate the layout for this fragment
+-        return inflater.inflate(R.layout.fragment_search, container, false);
+-    }
+-}
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_search.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_search.xml	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/src/main/res/layout/fragment_search.xml	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
+@@ -1,17 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    android:background="@color/white"
+-    android:layout_height="match_parent"
+-    tools:context=".Fragments.SearchFragment">
+-
+-    <androidx.appcompat.widget.SearchView
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        app:iconifiedByDefault="false"
+-        android:background="?android:attr/windowBackground"
+-        app:queryHint="Search Restaurant"/>
+-
+-</RelativeLayout>
+\ No newline at end of file
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\n\r\nbuildscript {\r\n    \r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.1.1'\r\n        \r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ build.gradle	(date 1615115873234)
+@@ -9,7 +9,8 @@
+     }
+     dependencies {
+         classpath 'com.android.tools.build:gradle:4.1.1'
+-        
++        classpath 'com.google.gms:google-services:4.3.3'
++
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+Index: app/src/main/java/com/geolocatorapplication/MapsActivity.java
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/MapsActivity.java	(date 1615107540946)
++++ app/src/main/java/com/geolocatorapplication/MapsActivity.java	(date 1615107540946)
+@@ -0,0 +1,154 @@
++package com.geolocatorapplication;
++
++import android.Manifest;
++import android.content.pm.PackageManager;
++import android.location.Address;
++import android.location.Geocoder;
++import android.location.Location;
++import android.os.Build;
++import android.os.Bundle;
++import android.view.View;
++import android.widget.EditText;
++import android.widget.Toast;
++
++import androidx.core.content.ContextCompat;
++import androidx.fragment.app.FragmentActivity;
++
++import com.google.android.gms.common.ConnectionResult;
++import com.google.android.gms.common.api.GoogleApiClient;
++import com.google.android.gms.location.LocationListener;
++import com.google.android.gms.location.LocationRequest;
++import com.google.android.gms.location.LocationServices;
++import com.google.android.gms.maps.CameraUpdateFactory;
++import com.google.android.gms.maps.GoogleMap;
++import com.google.android.gms.maps.OnMapReadyCallback;
++import com.google.android.gms.maps.SupportMapFragment;
++import com.google.android.gms.maps.model.BitmapDescriptorFactory;
++import com.google.android.gms.maps.model.LatLng;
++import com.google.android.gms.maps.model.Marker;
++import com.google.android.gms.maps.model.MarkerOptions;
++
++import java.io.IOException;
++import java.util.List;
++
++
++public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
++        LocationListener, GoogleApiClient.ConnectionCallbacks,
++        GoogleApiClient.OnConnectionFailedListener{
++
++    private GoogleMap mMap;
++    Location mLastLocation;
++    Marker mCurrLocationMarker;
++    GoogleApiClient mGoogleApiClient;
++    LocationRequest mLocationRequest;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.fragment_search);
++        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
++        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
++                .findFragmentById(R.id.map);
++        mapFragment.getMapAsync(this);
++
++    }
++
++    @Override
++    public void onMapReady(GoogleMap googleMap) {
++        mMap = googleMap;
++
++        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
++            if (ContextCompat.checkSelfPermission(this,
++                    Manifest.permission.ACCESS_FINE_LOCATION)
++                    == PackageManager.PERMISSION_GRANTED) {
++                buildGoogleApiClient();
++                mMap.setMyLocationEnabled(true);
++            }
++        }
++        else {
++            buildGoogleApiClient();
++            mMap.setMyLocationEnabled(true);
++        }
++
++    }
++    protected synchronized void buildGoogleApiClient() {
++        mGoogleApiClient = new GoogleApiClient.Builder(this)
++                .addConnectionCallbacks(this)
++                .addOnConnectionFailedListener(this)
++                .addApi(LocationServices.API).build();
++        mGoogleApiClient.connect();
++    }
++
++    @Override
++    public void onConnected(Bundle bundle) {
++
++        mLocationRequest = new LocationRequest();
++        mLocationRequest.setInterval(1000);
++        mLocationRequest.setFastestInterval(1000);
++        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
++        if (ContextCompat.checkSelfPermission(this,
++                Manifest.permission.ACCESS_FINE_LOCATION)
++                == PackageManager.PERMISSION_GRANTED) {
++            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
++        }
++
++    }
++
++    @Override
++    public void onConnectionSuspended(int i) {
++
++    }
++
++    @Override
++    public void onLocationChanged(Location location) {
++
++        mLastLocation = location;
++        if (mCurrLocationMarker != null) {
++            mCurrLocationMarker.remove();
++        }
++        //Place current location marker
++        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
++        MarkerOptions markerOptions = new MarkerOptions();
++        markerOptions.position(latLng);
++        markerOptions.title("Current Position");
++        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
++        mCurrLocationMarker = mMap.addMarker(markerOptions);
++
++        //move map camera
++        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
++        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
++
++        //stop location updates
++        if (mGoogleApiClient != null) {
++            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
++        }
++
++    }
++
++    @Override
++    public void onConnectionFailed(ConnectionResult connectionResult) {
++
++    }
++
++    public void searchLocation(View view) {
++        EditText locationSearch = (EditText) findViewById(R.id.editText);
++        String location = locationSearch.getText().toString();
++        List<Address> addressList = null;
++
++        if (location != null || !location.equals("")) {
++            Geocoder geocoder = new Geocoder(this);
++            try {
++                addressList = geocoder.getFromLocationName(location, 1);
++
++            } catch (IOException e) {
++                e.printStackTrace();
++            }
++            Address address = addressList.get(0);
++            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
++            mMap.addMarker(new MarkerOptions().position(latLng).title(location));
++            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
++            Toast.makeText(getApplicationContext(),address.getLatitude()+" "+address.getLongitude(),Toast.LENGTH_LONG).show();
++        }
++    }
++
++}
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n    buildToolsVersion \"30.0.0\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.geolocatorapplication\"\r\n        minSdkVersion 19\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.google.android.gms:play-services-maps:17.0.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/build.gradle	(date 1615115873926)
+@@ -1,4 +1,5 @@
+ apply plugin: 'com.android.application'
++apply plugin: 'com.google.gms.google-services'
+ 
+ android {
+     compileSdkVersion 30
+@@ -30,6 +31,8 @@
+     implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     implementation 'com.google.android.gms:play-services-maps:17.0.0'
++    implementation 'com.google.android.gms:play-services-location:18.0.0'
++    implementation 'com.google.firebase:firebase-database:19.2.1'
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\"com.geolocatorapplication.MainActivity\">\r\n    <!-- display two Button's and a FrameLayout to replace the Fragment's  -->\r\n\r\n    <FrameLayout\r\n        android:id=\"@+id/frameLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_above=\"@+id/navigation_view\"\r\n        />\r\n    <com.google.android.material.bottomnavigation.BottomNavigationView\r\n        android:id=\"@+id/navigation_view\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"@color/white\"\r\n        app:itemIconTint=\"@color/black\"\r\n        app:itemTextColor=\"@color/black\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        app:menu=\"@menu/navigation_bar\"/>\r\n\r\n\r\n\r\n\r\n<!--    <LinearLayout-->\r\n<!--        android:id=\"@+id/linearLayout\"-->\r\n<!--        android:layout_width=\"match_parent\"-->\r\n<!--        android:layout_height=\"100dp\"-->\r\n<!--        android:layout_alignParentBottom=\"true\"-->\r\n<!--        android:orientation=\"horizontal\"-->\r\n<!--        app:layout_constraintBottom_toBottomOf=\"parent\"-->\r\n<!--        app:layout_constraintEnd_toEndOf=\"parent\"-->\r\n<!--        app:layout_constraintStart_toStartOf=\"parent\">-->\r\n\r\n\r\n<!--            <LinearLayout-->\r\n<!--                android:id=\"@+id/home\"-->\r\n<!--                android:layout_width=\"0dp\"-->\r\n<!--                android:padding=\"10dp\"-->\r\n<!--                android:layout_weight=\"1\"-->\r\n<!--                android:gravity=\"center\"-->\r\n<!--                android:layout_height=\"wrap_content\"-->\r\n<!--                android:orientation=\"vertical\">-->\r\n\r\n<!--            <ImageView-->\r\n<!--                android:layout_width=\"match_parent\"-->\r\n<!--                android:layout_height=\"60dp\"-->\r\n<!--                android:background=\"@drawable/ic_baseline_home_24\" />-->\r\n<!--            <TextView-->\r\n<!--                android:layout_width=\"wrap_content\"-->\r\n<!--                android:layout_height=\"wrap_content\"-->\r\n<!--                android:text=\"Home\"-->\r\n<!--                android:textSize=\"20sp\"-->\r\n<!--                android:textColor=\"@color/black\"/>-->\r\n<!--            </LinearLayout>-->\r\n\r\n<!--            <LinearLayout-->\r\n<!--                android:id=\"@+id/search\"-->\r\n<!--                android:layout_width=\"0dp\"-->\r\n<!--                android:layout_weight=\"1\"-->\r\n<!--                android:padding=\"10dp\"-->\r\n\r\n<!--                android:gravity=\"center\"-->\r\n<!--                android:layout_height=\"wrap_content\"-->\r\n<!--                android:orientation=\"vertical\">-->\r\n\r\n<!--                <ImageView-->\r\n<!--                    android:layout_width=\"match_parent\"-->\r\n<!--                    android:layout_height=\"60dp\"-->\r\n<!--                    android:background=\"@drawable/ic_baseline_search_24\" />-->\r\n<!--                <TextView-->\r\n<!--                    android:layout_width=\"wrap_content\"-->\r\n<!--                    android:layout_height=\"wrap_content\"-->\r\n<!--                    android:text=\"Search\"-->\r\n<!--                    android:textSize=\"20sp\"-->\r\n<!--                    android:textColor=\"@color/black\"/>-->\r\n<!--            </LinearLayout>-->\r\n\r\n<!--            <LinearLayout-->\r\n<!--                android:id=\"@+id/favorites\"-->\r\n<!--                android:layout_width=\"0dp\"-->\r\n<!--                android:layout_weight=\"1\"-->\r\n<!--                android:gravity=\"center\"-->\r\n<!--                android:padding=\"10dp\"-->\r\n\r\n<!--                android:layout_height=\"wrap_content\"-->\r\n<!--                android:orientation=\"vertical\">-->\r\n\r\n<!--                <ImageView-->\r\n<!--                    android:layout_width=\"match_parent\"-->\r\n<!--                    android:layout_height=\"60dp\"-->\r\n<!--                    android:background=\"@drawable/ic_baseline_favorite_24\" />-->\r\n<!--                <TextView-->\r\n<!--                    android:layout_width=\"wrap_content\"-->\r\n<!--                    android:layout_height=\"wrap_content\"-->\r\n<!--                    android:text=\"Favourites\"-->\r\n<!--                    android:textSize=\"20sp\"-->\r\n<!--                    android:textColor=\"@color/black\"/>-->\r\n<!--            </LinearLayout>-->\r\n\r\n<!--            <LinearLayout-->\r\n<!--                android:id=\"@+id/profile\"-->\r\n<!--                android:layout_width=\"0dp\"-->\r\n<!--                android:layout_weight=\"1\"-->\r\n<!--                android:padding=\"10dp\"-->\r\n\r\n<!--                android:gravity=\"center\"-->\r\n<!--                android:layout_height=\"wrap_content\"-->\r\n<!--                android:orientation=\"vertical\">-->\r\n\r\n<!--                <ImageView-->\r\n<!--                    android:layout_width=\"match_parent\"-->\r\n<!--                    android:layout_height=\"60dp\"-->\r\n<!--                    android:background=\"@drawable/ic_baseline_perm_contact_calendar_24\" />-->\r\n<!--                <TextView-->\r\n<!--                    android:layout_width=\"wrap_content\"-->\r\n<!--                    android:layout_height=\"wrap_content\"-->\r\n<!--                    android:text=\"Profile\"-->\r\n<!--                    android:textSize=\"20sp\"-->\r\n<!--                    android:textColor=\"@color/black\"/>-->\r\n<!--            </LinearLayout>-->\r\n<!--        </LinearLayout>-->\r\n\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/src/main/res/layout/activity_main.xml	(date 1615116921983)
+@@ -24,7 +24,6 @@
+ 
+ 
+ 
+-
+ <!--    <LinearLayout-->
+ <!--        android:id="@+id/linearLayout"-->
+ <!--        android:layout_width="match_parent"-->
+Index: app/src/main/java/com/geolocatorapplication/Fragments/MapsFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.geolocatorapplication.Fragments;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.core.app.ActivityCompat;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.Manifest;\r\nimport android.content.Context;\r\nimport android.content.pm.PackageManager;\r\nimport android.location.Location;\r\nimport android.location.LocationListener;\r\nimport android.location.LocationManager;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport com.geolocatorapplication.MainActivity;\r\nimport com.geolocatorapplication.R;\r\nimport com.google.android.gms.maps.CameraUpdateFactory;\r\nimport com.google.android.gms.maps.GoogleMap;\r\nimport com.google.android.gms.maps.OnMapReadyCallback;\r\nimport com.google.android.gms.maps.SupportMapFragment;\r\nimport com.google.android.gms.maps.model.LatLng;\r\nimport com.google.android.gms.maps.model.MarkerOptions;\r\n\r\npublic class MapsFragment extends Fragment {\r\n    LocationManager locationManager;\r\n    LocationListener locationListener;\r\n    GoogleMap mMap;\r\n    private OnMapReadyCallback callback = new OnMapReadyCallback() {\r\n\r\n        @Override\r\n        public void onMapReady(GoogleMap googleMap) {\r\n            mMap=googleMap;\r\n\r\n            locationManager=(LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);\r\n            locationListener=new LocationListener() {\r\n                @Override\r\n                public void onLocationChanged(@NonNull Location location) {\r\n                    mMap.clear();\r\n                    LatLng userLoc = new LatLng(location.getLatitude(), location.getLongitude());\r\n                    mMap.addMarker(new MarkerOptions().position(userLoc).title(\"Your Location\"));\r\n                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,15));\r\n                    mMap.animateCamera(CameraUpdateFactory.zoomIn());\r\n                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);\r\n                }\r\n            };\r\n            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){\r\n                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);\r\n            }\r\n            else{\r\n                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener );\r\n                Location lastLocation=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);\r\n                mMap.clear();\r\n                LatLng userLoc = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());\r\n                mMap.addMarker(new MarkerOptions().position(userLoc).title(\"Your Location\"));\r\n                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,15));\r\n                mMap.animateCamera(CameraUpdateFactory.zoomIn());\r\n                mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);\r\n            }\r\n\r\n\r\n\r\n        }\r\n    };\r\n\r\n    @Nullable\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater,\r\n                             @Nullable ViewGroup container,\r\n                             @Nullable Bundle savedInstanceState) {\r\n\r\n        View view= inflater.inflate(R.layout.fragment_maps, container, false);\r\n\r\n        return view;\r\n    }\r\n\r\n    @Override\r\n    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {\r\n        super.onRequestPermissionsResult(requestCode, permissions, grantResults);\r\n        if(requestCode==1){\r\n            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {\r\n                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {\r\n\r\n                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n        SupportMapFragment mapFragment =\r\n                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);\r\n        if (mapFragment != null) {\r\n            mapFragment.getMapAsync(callback);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/Fragments/MapsFragment.java	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/src/main/java/com/geolocatorapplication/Fragments/MapsFragment.java	(date 1615061119990)
+@@ -1,24 +1,21 @@
+ package com.geolocatorapplication.Fragments;
+ 
+-import androidx.annotation.NonNull;
+-import androidx.annotation.Nullable;
+-import androidx.core.app.ActivityCompat;
+-import androidx.fragment.app.Fragment;
+-
+ import android.Manifest;
+ import android.content.Context;
+ import android.content.pm.PackageManager;
+ import android.location.Location;
+ import android.location.LocationListener;
+ import android.location.LocationManager;
+-import android.os.Build;
+ import android.os.Bundle;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+-import android.widget.Toast;
+ 
+-import com.geolocatorapplication.MainActivity;
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.core.app.ActivityCompat;
++import androidx.fragment.app.Fragment;
++
+ import com.geolocatorapplication.R;
+ import com.google.android.gms.maps.CameraUpdateFactory;
+ import com.google.android.gms.maps.GoogleMap;
+@@ -101,4 +98,5 @@
+             mapFragment.getMapAsync(callback);
+         }
+     }
++
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/geolocatorapplication/Fragments/FirstFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.geolocatorapplication.Fragments;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.geolocatorapplication.R;\r\n\r\n//import com.abhiandroid.fragmentexample.R;\r\n\r\npublic class FirstFragment extends Fragment {\r\n\r\n\r\n    View view;\r\n    Button firstButton;\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n// Inflate the layout for this fragment\r\n        view = inflater.inflate(R.layout.fragment_first, container, false);\r\n// get the reference of Button\r\n//        firstButton = (Button) view.findViewById(R.id.firstButton);\r\n//// perform setOnClickListener on first Button\r\n//        firstButton.setOnClickListener(new View.OnClickListener() {\r\n//            @Override\r\n//            public void onClick(View v) {\r\n//// display a message by using a Toast\r\n//                Toast.makeText(getActivity(), \"First Fragment\", Toast.LENGTH_LONG).show();\r\n//            }\r\n//        });\r\n        return view;\r\n    }\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/Fragments/FirstFragment.java	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/src/main/java/com/geolocatorapplication/Fragments/FirstFragment.java	(date 1615058785134)
+@@ -5,13 +5,11 @@
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Button;
+-import android.widget.Toast;
+ 
+ import androidx.fragment.app.Fragment;
+ 
+ import com.geolocatorapplication.R;
+ 
+-//import com.abhiandroid.fragmentexample.R;
+ 
+ public class FirstFragment extends Fragment {
+ 
+Index: app/src/main/java/com/geolocatorapplication/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.geolocatorapplication;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.MenuItem;\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.geolocatorapplication.Fragments.FirstFragment;\r\nimport com.geolocatorapplication.Fragments.MapsFragment;\r\nimport com.geolocatorapplication.Fragments.SearchFragment;\r\nimport com.geolocatorapplication.Fragments.SecondFragment;\r\nimport com.geolocatorapplication.Fragments.ThirdFragment;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    FirstFragment firstFragment;\r\n    SecondFragment secondFragment;\r\n    ThirdFragment thirdFragment;\r\n    MapsFragment mapFragment;\r\n    SearchFragment searchFragment;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        firstFragment = new FirstFragment();\r\n        thirdFragment=new ThirdFragment();\r\n        secondFragment=new SecondFragment();\r\n        searchFragment=new SearchFragment();\r\n        mapFragment=new MapsFragment();\r\n        loadFragment(mapFragment);\r\n        BottomNavigationView bottomNavigationView=findViewById(R.id.navigation_view);\r\n        bottomNavigationView.setOnNavigationItemSelectedListener(\r\n                new BottomNavigationView.OnNavigationItemSelectedListener() {\r\n                    @Override\r\n                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\r\n                        Fragment selected=null;\r\n                        switch (item.getItemId()){\r\n\r\n                            case R.id.home:\r\n                                selected=mapFragment;\r\n                                break;\r\n                            case R.id.favorites:\r\n                                selected=secondFragment;\r\n                                break;\r\n                            case R.id.profile:\r\n                                selected=thirdFragment;\r\n                                break;\r\n                            case R.id.search:\r\n                                  selected=searchFragment;\r\n                                 break;\r\n                        }\r\n                        loadFragment(selected);\r\n\r\n                        return true;\r\n                    }\r\n                }\r\n        );\r\n\r\n    }\r\n\r\n\r\n    private void loadFragment(Fragment fragment) {\r\n        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,fragment).commit();\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/MainActivity.java	(revision 8f8064720c594c25e739da84343a51f9ef9f74e8)
++++ app/src/main/java/com/geolocatorapplication/MainActivity.java	(date 1615297840694)
+@@ -2,32 +2,31 @@
+ 
+ import android.os.Bundle;
+ import android.view.MenuItem;
++
+ import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.fragment.app.Fragment;
+ 
+ import com.geolocatorapplication.Fragments.FirstFragment;
+ import com.geolocatorapplication.Fragments.MapsFragment;
+-import com.geolocatorapplication.Fragments.SearchFragment;
+-import com.geolocatorapplication.Fragments.SecondFragment;
+ import com.geolocatorapplication.Fragments.ThirdFragment;
+ import com.google.android.material.bottomnavigation.BottomNavigationView;
+ 
+ public class MainActivity extends AppCompatActivity {
+ 
+     FirstFragment firstFragment;
+-    SecondFragment secondFragment;
++   // SecondFragment secondFragment;
+     ThirdFragment thirdFragment;
+     MapsFragment mapFragment;
+-    SearchFragment searchFragment;
++    LocationsFragment locfrag;
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+         firstFragment = new FirstFragment();
+         thirdFragment=new ThirdFragment();
+-        secondFragment=new SecondFragment();
+-        searchFragment=new SearchFragment();
++        locfrag=new LocationsFragment();
++        //searchFragment=new SearchFragment();
+         mapFragment=new MapsFragment();
+         loadFragment(mapFragment);
+         BottomNavigationView bottomNavigationView=findViewById(R.id.navigation_view);
+@@ -42,15 +41,16 @@
+                                 selected=mapFragment;
+                                 break;
+                             case R.id.favorites:
+-                                selected=secondFragment;
++                                selected=locfrag;
+                                 break;
+                             case R.id.profile:
+                                 selected=thirdFragment;
+                                 break;
+-                            case R.id.search:
+-                                  selected=searchFragment;
+-                                 break;
+-                        }
++//                            case R.id.search:
++//                                selected=searchFragment;
++//                                break;
++//                        }
++                            }
+                         loadFragment(selected);
+ 
+                         return true;
+@@ -65,4 +65,4 @@
+         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,fragment).commit();
+ 
+     }
+-}
++}
+\ No newline at end of file
