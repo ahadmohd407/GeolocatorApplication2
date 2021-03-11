@@ -7,4 +7,6 @@
     <color name="default_nav">#A4000000</color>
     <color name="active_nav">#000000</color>
     <color name="button_background_color">#925</color>
+    <color name="blue_grey">#607d8b</color>
+    <color name="emphasis">#31b6e7</color>
 </resources>
