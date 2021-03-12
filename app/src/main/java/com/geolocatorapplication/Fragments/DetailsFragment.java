@@ -10,7 +10,12 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.geolocatorapplication.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Document;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,66 +34,24 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-// Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragment_details, container, false);
         final TextView restaurant = view.findViewById(R.id.restaurant);
         final TextView restaurantsName =  view.findViewById(R.id.restaurantName);
         final TextView restaurantsAddress = view.findViewById(R.id.restaurantAddress);
         TextView restaurantsTimings = view.findViewById(R.id.restaurantTimings);
-
+        
         final FirebaseFirestore db= FirebaseFirestore.getInstance();
-        // get value from search  fragment
-        //restaurantsTimings.setText("My Awesome Text");
         final String value = getArguments().getString("Location");
+        DocumentReference reference=db.collection("restaurants").document(value);
+        reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                restaurantsAddress.setText(documentSnapshot.getString("Address"));
+                restaurantsName.setText(documentSnapshot.getString("Name"));
 
-//
-//        db.collection("restaurants").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                   // List<String> list = new ArrayList<>();
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        if(document.getId()==value)
-//                        {
-                            Object a=  db.collection("restaurants").document(value).get();
-      //  Log.d(TAG, "HELLO ", a);
+            }
+        });
 
-       //             }
-
-
-//                    for (int i = 0; i < list.size(); i++) {
-//                        if (value.equals(list.get(i))) {
-//
-//                            db.collection("restaurants").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-//
-//                                    if (e != null) {
-//
-//                                    }
-
-//                                    for (DocumentChange documentChange : documentSnapshots.getDocumentChanges()) {
-//                                        restName = documentChange.getDocument().getData().get("Name").toString();
-//                                        restAdd = documentChange.getDocument().getData().get("Address").toString();
-
-
-//                                    }
-//                                }
-//                            });
-//
-//
-//                        }
-//                    }
-                    restaurant.setText(restName);
-                    restaurantsName.setText(restName);
-                    restaurantsAddress.setText(restAdd);
-
-
-//                }
-//            }
-  //      });
                     return view;
     }
 }
-//}
