@@ -35,7 +35,7 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_details, container, false);
-        final TextView restaurant = view.findViewById(R.id.restaurant);
+//        final TextView restaurant = view.findViewById(R.id.restaurant);
         final TextView restaurantsName =  view.findViewById(R.id.restaurantName);
         final TextView restaurantsAddress = view.findViewById(R.id.restaurantAddress);
         TextView restaurantsTimings = view.findViewById(R.id.restaurantTimings);
