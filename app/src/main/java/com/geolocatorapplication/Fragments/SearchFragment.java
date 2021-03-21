@@ -12,11 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.geolocatorapplication.Adapters.RestaurantAdapter;
+import com.geolocatorapplication.Adapters.Restaurants;
+import com.geolocatorapplication.Adapters.SearchAdapter;
 import com.geolocatorapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -31,9 +35,11 @@ public class SearchFragment extends Fragment {
 
     SearchView searchView;
     List<String> names;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,all_restaurants;
     RestaurantAdapter adapter;
-
+    SearchAdapter searchAdapter;
+    List<Restaurants>res_names;
+    FirebaseFirestore db;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -44,18 +50,35 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_search, container, false);
         searchView=view.findViewById(R.id.searchView);
+        all_restaurants=view.findViewById(R.id.all_restaurants);
         names=new ArrayList<>();
         names.add("Restaurant-1");
         names.add("Restaurant-2");
         names.add("Restaurant-3");
         names.add("Restaurant-4");
-
+        res_names=new ArrayList<>();
+        searchAdapter=new SearchAdapter(getContext(),res_names);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        all_restaurants.setLayoutManager(linearLayoutManager);
+        all_restaurants.setAdapter(searchAdapter);
+        db= FirebaseFirestore.getInstance();
+        db.collection("restaurants").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot snapshots:queryDocumentSnapshots){
+                    res_names.add(new Restaurants(snapshots.getId(),"4/5"));
+                    searchAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+//        res_names.add(new Restaurants("Doon Darbar","3/5"));
+//        res_names.add(new Restaurants("Cafe coffee day","4/5"));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
                 if(!names.contains(query)) {
                     //1.check in database
-                    FirebaseFirestore db= FirebaseFirestore.getInstance();
+
 
                     db.collection("restaurants")
                             .get()
@@ -76,14 +99,6 @@ public class SearchFragment extends Fragment {
                                                 args.putString("Location",query);
                                                 NAME.setArguments(args);
                                                 fragmentTransaction.commit();
-//Inflate the fragment
-                                                //getFragmentManager().beginTransaction().add(R.id.frameLayout, NAME).commit();
-
-
-                                                //2.if found put marker on the map
-                                                //Toast.makeText(getActivity(), "Found", Toast.LENGTH_LONG).show();
-                                                //2-a. fetch latitute and longitude and put it in map
-
                                             }
                                         }
                                     } else {
@@ -91,8 +106,6 @@ public class SearchFragment extends Fragment {
                                     }
                                 }
                             });
-
-                    //3.Not foun-->Toast Show
                     names.add(query);
                     adapter.notifyDataSetChanged();
                 }
