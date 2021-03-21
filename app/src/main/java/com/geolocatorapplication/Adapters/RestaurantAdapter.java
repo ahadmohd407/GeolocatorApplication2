@@ -47,13 +47,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-    ImageView delete;
-    TextView name;
+        ImageView delete;
+        TextView name;
 
-    public ViewHolder(@NonNull View itemView) {
-        super(itemView);
-        delete=itemView.findViewById(R.id.delete);
-        name=itemView.findViewById(R.id.name);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            delete=itemView.findViewById(R.id.delete);
+            name=itemView.findViewById(R.id.name);
+        }
     }
-}
 }

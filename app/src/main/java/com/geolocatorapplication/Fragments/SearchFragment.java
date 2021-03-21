@@ -49,7 +49,7 @@ public class SearchFragment extends Fragment {
         names.add("Restaurant-2");
         names.add("Restaurant-3");
         names.add("Restaurant-4");
-        
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
@@ -82,7 +82,7 @@ public class SearchFragment extends Fragment {
 
                                                 //2.if found put marker on the map
                                                 //Toast.makeText(getActivity(), "Found", Toast.LENGTH_LONG).show();
-                                            //2-a. fetch latitute and longitude and put it in map
+                                                //2-a. fetch latitute and longitude and put it in map
 
                                             }
                                         }

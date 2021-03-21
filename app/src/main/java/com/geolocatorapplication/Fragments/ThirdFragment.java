@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -24,20 +23,30 @@ public class ThirdFragment extends Fragment {
 // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_third, container, false);
 // get the reference of Button
-        firstButton = (Button) view.findViewById(R.id.thirdButton);
+        //firstButton = (Button) view.findViewById(R.id.thirdButton);
 // perform setOnClickListener on first Button
+        firstButton = (Button) view.findViewById(R.id.thirdButton);
+// perform setOnClickListener on second Button
         firstButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-// display a message by using a Toast
-                Toast.makeText(getActivity(), "Third Fragment", Toast.LENGTH_LONG).show();
+// display a message
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                Signup_Login NAME = new Signup_Login();
+//                fragmentTransaction.replace(R.id.frameLayout, NAME);
+//            }
+
+                Signup_Login nextFrag= new Signup_Login();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
             }
-        });
+            });
         return view;
     }
 }
-
-
 
 
 

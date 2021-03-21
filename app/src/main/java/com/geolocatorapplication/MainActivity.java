@@ -2,6 +2,7 @@ package com.geolocatorapplication;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,9 +13,10 @@ import com.geolocatorapplication.Fragments.SearchFragment;
 import com.geolocatorapplication.Fragments.SecondFragment;
 import com.geolocatorapplication.Fragments.ThirdFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-
+private FirebaseUser currentUser;
     FirstFragment firstFragment;
     SecondFragment secondFragment;
     ThirdFragment thirdFragment;
