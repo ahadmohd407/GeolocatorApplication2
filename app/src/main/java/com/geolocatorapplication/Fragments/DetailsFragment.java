@@ -5,37 +5,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import com.geolocatorapplication.Adapters.Reviews;
-import com.geolocatorapplication.Adapters.ReviewsAdapter;
 import com.geolocatorapplication.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.w3c.dom.Document;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class DetailsFragment extends Fragment  {
+public class DetailsFragment extends Fragment {
     String restName;
     String restAdd;
     View view;
     Button secondButton;
-    List<Reviews> res_names;
-    ReviewsAdapter reviewsAdapter;
-    RecyclerView listofreviews;
-    Button revButton;
+    ImageView direction;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,9 +43,24 @@ public class DetailsFragment extends Fragment  {
         final TextView restaurantsName =  view.findViewById(R.id.restaurantName);
         final TextView restaurantsAddress = view.findViewById(R.id.restaurantAddress);
         TextView restaurantsTimings = view.findViewById(R.id.restaurantTimings);
-
-        final FirebaseFirestore db= FirebaseFirestore.getInstance();
         final String value = getArguments().getString("Location");
+        direction=view.findViewById(R.id.directions);
+        direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                DirectionFragment df = new DirectionFragment();
+                fragmentTransaction.replace(R.id.frameLayout,df);
+
+                Bundle args = new Bundle();
+                args.putString("Location",value);
+                df.setArguments(args);
+                fragmentTransaction.commit();
+            }
+        });
+        final FirebaseFirestore db= FirebaseFirestore.getInstance();
+
         DocumentReference reference=db.collection("restaurants").document(value);
         reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -58,34 +71,6 @@ public class DetailsFragment extends Fragment  {
             }
         });
 
-//        revButton = (Button) view.findViewById(R.id.thirdButton);
-//
-//        revButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Signup_Login nextFrag= new Signup_Login();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-//                        .addToBackStack(null)
-//                        .commit();
-//            }
-//        });
-
-
-        //************************************************************//
-        listofreviews=view.findViewById(R.id.listofreviews);
-        res_names=new ArrayList<>();
-        res_names.add(new Reviews("Ahad","Delicious Food!!"));
-        res_names.add(new Reviews("Amit","Awesome Food!!"));
-        reviewsAdapter=new ReviewsAdapter(getContext(),res_names);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
-        listofreviews.setLayoutManager(linearLayoutManager);
-        listofreviews.setAdapter(reviewsAdapter);
-
-
-
-
-        //****************************************************//
                     return view;
     }
 }

@@ -9,12 +9,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <TextView
-        android:background="#ADD8E6"
-        android:textColor="@color/black"
         android:id="@+id/restaurantName"
         android:textSize="20sp"
-        android:text="RESTAURANT NAME"
+        android:text="Restaurant Name"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:layout_marginBottom="8dp"
         android:padding="10dp"
         android:fontFamily="sans-serif"
@@ -28,6 +27,7 @@
         android:text="Address"
         android:padding="5dp"
         android:textSize="17sp"
+
         style="@style/sectionHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,45 +65,10 @@
         android:maxLines="2"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/directions"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <Button
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_baseline_rate_review_24"
-            android:text="Write a Review"
-            android:background="#ADD8E6"
-            android:textColor="@color/black"
-            />
-        <View
-            android:layout_width="1.5dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/black" />
+        android:src="@drawable/directions"/>
 
-        <Button
-            android:background="#ADD8E6"
-            android:textColor="@color/black"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_baseline_navigation_24"
-            android:text="Navigate"/>
-
-    </LinearLayout>
-<TextView
-    style="@style/sectionHeader"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="RECENT REVIEWS"
-    android:background="#ADD8E6"
-    android:textColor="@color/black"
-    />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listofreviews"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>
