@@ -1,0 +1,446 @@
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 30\r\n    buildToolsVersion \"30.0.0\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.geolocatorapplication\"\r\n        minSdkVersion 19\r\n        targetSdkVersion 30\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n        multiDexEnabled true\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n    implementation 'androidx.multidex:multidex:2.0.1'\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.google.android.gms:play-services-maps:17.0.0'\r\n    implementation 'com.google.android.gms:play-services-location:17.0.0'\r\n    implementation 'com.karumi:dexter:5.0.0'\r\n    implementation 'com.google.firebase:firebase-database:19.6.0'\r\n    implementation 'com.google.firebase:firebase-analytics:18.0.2'\r\n    implementation 'com.google.firebase:firebase-firestore:22.1.1'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/build.gradle	(date 1617967325636)
+@@ -29,17 +29,22 @@
+     implementation fileTree(dir: 'libs', include: ['*.jar'])
+     implementation 'androidx.multidex:multidex:2.0.1'
+     implementation 'androidx.appcompat:appcompat:1.2.0'
+-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
++    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+-    implementation 'com.google.android.gms:play-services-location:17.0.0'
++    implementation 'com.google.android.gms:play-services-location:18.0.0'
+     implementation 'com.karumi:dexter:5.0.0'
+-    implementation 'com.google.firebase:firebase-database:19.6.0'
++    implementation 'com.google.firebase:firebase-database:19.7.0'
+     implementation 'com.google.firebase:firebase-analytics:18.0.2'
+     implementation 'com.google.firebase:firebase-firestore:22.1.1'
++    implementation 'com.google.firebase:firebase-core:18.0.2'
++    implementation 'com.google.firebase:firebase-auth:20.0.3'
++    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+     testImplementation 'junit:junit:4.12'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+-    implementation 'com.google.android.material:material:1.2.1'
++    implementation 'com.google.android.material:material:1.3.0'
++
+ 
+ }
++apply plugin: 'com.google.gms.google-services'
+Index: app/src/main/java/com/geolocatorapplication/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.geolocatorapplication;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.MenuItem;\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.geolocatorapplication.Fragments.FirstFragment;\r\nimport com.geolocatorapplication.Fragments.MapsFragment;\r\nimport com.geolocatorapplication.Fragments.SearchFragment;\r\nimport com.geolocatorapplication.Fragments.SecondFragment;\r\nimport com.geolocatorapplication.Fragments.ThirdFragment;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    FirstFragment firstFragment;\r\n    SecondFragment secondFragment;\r\n    ThirdFragment thirdFragment;\r\n    MapsFragment mapFragment;\r\n    SearchFragment searchFragment;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        firstFragment = new FirstFragment();\r\n        thirdFragment=new ThirdFragment();\r\n        secondFragment=new SecondFragment();\r\n        searchFragment=new SearchFragment();\r\n        mapFragment=new MapsFragment();\r\n        loadFragment(mapFragment);\r\n        BottomNavigationView bottomNavigationView=findViewById(R.id.navigation_view);\r\n        bottomNavigationView.setOnNavigationItemSelectedListener(\r\n                new BottomNavigationView.OnNavigationItemSelectedListener() {\r\n                    @Override\r\n                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\r\n                        Fragment selected=null;\r\n                        switch (item.getItemId()){\r\n\r\n                            case R.id.home:\r\n                                selected=mapFragment;\r\n                                break;\r\n                            case R.id.favorites:\r\n                                selected=secondFragment;\r\n                                break;\r\n                            case R.id.profile:\r\n                                selected=thirdFragment;\r\n                                break;\r\n                            case R.id.search:\r\n                                  selected=searchFragment;\r\n                                 break;\r\n                        }\r\n                        loadFragment(selected);\r\n\r\n                        return true;\r\n                    }\r\n                }\r\n        );\r\n\r\n    }\r\n\r\n\r\n    private void loadFragment(Fragment fragment) {\r\n        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,fragment).commit();\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/MainActivity.java	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/src/main/java/com/geolocatorapplication/MainActivity.java	(date 1617967325643)
+@@ -2,6 +2,7 @@
+ 
+ import android.os.Bundle;
+ import android.view.MenuItem;
++
+ import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.fragment.app.Fragment;
+@@ -12,9 +13,10 @@
+ import com.geolocatorapplication.Fragments.SecondFragment;
+ import com.geolocatorapplication.Fragments.ThirdFragment;
+ import com.google.android.material.bottomnavigation.BottomNavigationView;
++import com.google.firebase.auth.FirebaseUser;
+ 
+ public class MainActivity extends AppCompatActivity {
+-
++private FirebaseUser currentUser;
+     FirstFragment firstFragment;
+     SecondFragment secondFragment;
+     ThirdFragment thirdFragment;
+Index: app/src/main/res/layout/layout_dialog.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/layout_dialog.xml	(date 1617967325645)
++++ app/src/main/res/layout/layout_dialog.xml	(date 1617967325645)
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="utf-8"?>
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:padding="16dp">
++    <EditText
++        android:id="@+id/edit_Name"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:hint="Name" />
++    <EditText
++        android:id="@+id/edit_Review"
++        android:layout_below="@id/edit_Name"
++        android:layout_alignParentStart="true"
++        android:hint="Review"
++        android:minLines="3"
++        android:scrollbarAlwaysDrawVerticalTrack="true"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:background="@null"
++        android:gravity="top|left"
++        android:inputType="textMultiLine"
++        android:overScrollMode="always"
++        android:scrollbarStyle="insideInset"
++        android:scrollbars="vertical"
++        android:lines="6"
++        android:textAppearance="?android:attr/textAppearanceMedium"
++        android:scrollHorizontally="false"/>
++</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/geolocatorapplication/Fragments/ThirdFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.geolocatorapplication.Fragments;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Button;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport com.geolocatorapplication.R;\r\n\r\n\r\npublic class ThirdFragment extends Fragment {\r\n\r\n\r\n    View view;\r\n    Button firstButton;\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n// Inflate the layout for this fragment\r\n        view = inflater.inflate(R.layout.fragment_third, container, false);\r\n// get the reference of Button\r\n        firstButton = (Button) view.findViewById(R.id.thirdButton);\r\n// perform setOnClickListener on first Button\r\n        firstButton.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n// display a message by using a Toast\r\n                Toast.makeText(getActivity(), \"Third Fragment\", Toast.LENGTH_LONG).show();\r\n            }\r\n        });\r\n        return view;\r\n    }\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/Fragments/ThirdFragment.java	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/src/main/java/com/geolocatorapplication/Fragments/ThirdFragment.java	(date 1617967325641)
+@@ -1,19 +1,23 @@
++
++
+ package com.geolocatorapplication.Fragments;
+-
+ import android.os.Bundle;
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Button;
+-import android.widget.Toast;
++import android.widget.TextView;
+ 
++import androidx.fragment.app.DialogFragment;
+ import androidx.fragment.app.Fragment;
++import androidx.fragment.app.FragmentTransaction;
+ 
+ import com.geolocatorapplication.R;
+ 
+ 
+-public class ThirdFragment extends Fragment {
+-
++public class ThirdFragment extends DialogFragment implements View.OnClickListener {
++    Button btnEmbedDialogFragment, btnDialogFragment, btnDialogFragmentFullScreen, btnAlertDialogFragment;
++    TextView textView;
+ 
+     View view;
+     Button firstButton;
+@@ -24,25 +28,93 @@
+ // Inflate the layout for this fragment
+         view = inflater.inflate(R.layout.fragment_third, container, false);
+ // get the reference of Button
+-        firstButton = (Button) view.findViewById(R.id.thirdButton);
++        textView = view.findViewById(R.id.textView);
++        btnEmbedDialogFragment = view.findViewById(R.id.btnEmbedDialogFragment);
++        btnDialogFragment = view.findViewById(R.id.btnDialogFragment);
++        btnDialogFragmentFullScreen = view.findViewById(R.id.btnDialogFragmentFullScreen);
++        btnAlertDialogFragment = view.findViewById(R.id.btnAlertDialogFragment);
++
++        btnEmbedDialogFragment.setOnClickListener(this);
++        btnDialogFragment.setOnClickListener(this);
++        btnDialogFragmentFullScreen.setOnClickListener(this);
++        btnAlertDialogFragment.setOnClickListener(this);
++
++        firstButton = (Button) view.findViewById(R.id.secondButton);
+ // perform setOnClickListener on first Button
+-        firstButton.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View v) {
+-// display a message by using a Toast
+-                Toast.makeText(getActivity(), "Third Fragment", Toast.LENGTH_LONG).show();
+-            }
+-        });
++
++
++
+         return view;
+     }
+-}
++
++    @Override
++    public void onClick(View view) {
++        switch (view.getId()) {
++            case R.id.btnEmbedDialogFragment:
++                MyDialogFragment dialogFragment = new MyDialogFragment();
++
++                FragmentTransaction ft = getFragmentManager().beginTransaction();
++
++                ft.replace(R.id.frameLayout, dialogFragment);
++                ft.commit();
++                break;
++
++            case R.id.btnDialogFragment:
++                dialogFragment = new MyDialogFragment();
++
++                Bundle bundle = new Bundle();
++                bundle.putBoolean("notAlertDialog", true);
++
++                dialogFragment.setArguments(bundle);
++
++                ft = getFragmentManager().beginTransaction();
++                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
++                if (prev != null) {
++                    ft.remove(prev);
++                }
++                ft.addToBackStack(null);
++
+ 
++                dialogFragment.show(ft, "dialog");
++                break;
+ 
++            case R.id.btnDialogFragmentFullScreen:
++                dialogFragment = new MyDialogFragment();
+ 
++                bundle = new Bundle();
++                bundle.putString("email", "xyz@gmail.com");
++                bundle.putBoolean("fullScreen", true);
++                bundle.putBoolean("notAlertDialog", true);
+ 
++                dialogFragment.setArguments(bundle);
+ 
+ 
++                ft = getFragmentManager().beginTransaction();
++                prev = getFragmentManager().findFragmentByTag("dialog");
++                if (prev != null) {
++                    ft.remove(prev);
++                }
++                ft.addToBackStack(null);
+ 
+ 
++                dialogFragment.show(ft, "dialog");
++                break;
+ 
++            case R.id.btnAlertDialogFragment:
++                dialogFragment = new MyDialogFragment();
++
++
++                ft = getFragmentManager().beginTransaction();
++                prev = getFragmentManager().findFragmentByTag("dialog");
++                if (prev != null) {
++                    ft.remove(prev);
++                }
++                ft.addToBackStack(null);
++
++
++                dialogFragment.show(ft, "dialog");
++                break;
++        }
++    }
++}
+ 
+Index: app/src/main/java/com/geolocatorapplication/Adapters/Reviews.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/Adapters/Reviews.java	(date 1617967325639)
++++ app/src/main/java/com/geolocatorapplication/Adapters/Reviews.java	(date 1617967325639)
+@@ -0,0 +1,27 @@
++package com.geolocatorapplication.Adapters;
++
++public class Reviews {
++    private String res_name;
++    private String reviews;
++
++    public Reviews(String res_name, String reviews) {
++        this.res_name = res_name;
++        this.reviews = reviews;
++    }
++
++    public String getRes_name() {
++        return res_name;
++    }
++
++    public void setRes_name(String res_name) {
++        this.res_name = res_name;
++    }
++
++    public String getreviews() {
++        return reviews;
++    }
++
++    public void setRatings(String reviews) {
++        this.reviews = reviews;
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">Geolocator Application</string>\r\n    <!-- TODO: Remove or change this placeholder text -->\r\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/src/main/res/values/strings.xml	(date 1617967325648)
+@@ -2,4 +2,11 @@
+     <string name="app_name">Geolocator Application</string>
+     <!-- TODO: Remove or change this placeholder text -->
+     <string name="hello_blank_fragment">Hello blank fragment</string>
++    <string name="email_hint">Email</string>
++    <string name="password_hint">Password</string>
++    <string name="login_text">Login</string>
++    <string name="or_text">Or</string>
++    <string name="create_text">Create Account</string>
++    <string name="username_hint">Username</string>
++
+ </resources>
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <!-- color's used in our project -->\r\n    <color name=\"black\">#000</color>\r\n    <color name=\"green\">#0f0</color>\r\n    <color name=\"white\">#fff</color>\r\n    <color name=\"default_nav\">#A4000000</color>\r\n    <color name=\"active_nav\">#000000</color>\r\n    <color name=\"button_background_color\">#925</color>\r\n    <color name=\"blue_grey\">#607d8b</color>\r\n    <color name=\"emphasis\">#31b6e7</color>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/src/main/res/values/colors.xml	(date 1617967325647)
+@@ -3,7 +3,7 @@
+     <!-- color's used in our project -->
+     <color name="black">#000</color>
+     <color name="green">#0f0</color>
+-    <color name="white">#fff</color>
++    <color name="white">#ffff</color>
+     <color name="default_nav">#A4000000</color>
+     <color name="active_nav">#000000</color>
+     <color name="button_background_color">#925</color>
+Index: app/src/main/res/layout/fragment_third.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\"com.example.geolocatorapp.SecondFragment\">\r\n\r\n    <!--TextView and Button displayed in Second Fragment -->\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"100dp\"\r\n        android:text=\"This is Profile \"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"25sp\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/thirdButton\"\r\n        android:layout_width=\"fill_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_centerInParent=\"true\"\r\n        android:layout_marginLeft=\"20dp\"\r\n        android:layout_marginRight=\"20dp\"\r\n        android:background=\"@color/green\"\r\n        android:text=\"Profile\"\r\n        android:textColor=\"@color/white\"\r\n        android:textSize=\"20sp\"\r\n        android:textStyle=\"bold\" />\r\n\r\n</RelativeLayout>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_third.xml	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/src/main/res/layout/fragment_third.xml	(date 1617967325644)
+@@ -1,41 +1,61 @@
++<?xml version="1.0" encoding="utf-8"?>
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context="com.example.geolocatorapp.SecondFragment">
++    android:orientation="vertical"
++    tools:context=".MainActivity">
++
+ 
+-    <!--TextView and Button displayed in Second Fragment -->
+-    <TextView
++    <FrameLayout
++        android:id="@+id/frameLayout"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_above="@+id/btnEmbedDialogFragment"
++        android:layout_alignParentTop="true" />
++
++
++    <Button
++        android:id="@+id/btnEmbedDialogFragment"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerHorizontal="true"
+-        android:layout_marginTop="100dp"
+-        android:text="This is Profile "
+-        android:textColor="@color/black"
+-        android:textSize="25sp" />
++        android:layout_above="@+id/btnDialogFragment"
++        android:text="EMBED DIALOG FRAGMENT" />
+ 
+     <Button
+-        android:id="@+id/thirdButton"
+-        android:layout_width="fill_parent"
++        android:id="@+id/btnDialogFragment"
++        android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerInParent="true"
+-        android:layout_marginLeft="20dp"
+-        android:layout_marginRight="20dp"
+-        android:background="@color/green"
+-        android:text="Profile"
+-        android:textColor="@color/white"
+-        android:textSize="20sp"
+-        android:textStyle="bold" />
+-
+-</RelativeLayout>
+-
+-
+-
++        android:layout_marginTop="8dp"
++        android:text="SIMPLE DIALOG FRAGMENT" />
+ 
+ 
++    <Button
++        android:id="@+id/btnDialogFragmentFullScreen"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/btnDialogFragment"
++        android:layout_centerHorizontal="true"
++        android:layout_marginTop="8dp"
++        android:text="DIALOG FRAGMENT FULL SCREEN" />
+ 
+ 
++    <Button
++        android:id="@+id/btnAlertDialogFragment"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/btnDialogFragmentFullScreen"
++        android:layout_centerHorizontal="true"
++        android:layout_marginTop="8dp"
++        android:text="Alert Dialog Fragment" />
+ 
+-
+-
++    <TextView
++        android:id="@+id/textView"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_below="@+id/btnAlertDialogFragment"
++        android:layout_centerHorizontal="true" />
+ 
++</RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/geolocatorapplication/Adapters/RestaurantAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.geolocatorapplication.Adapters;\r\n\r\nimport android.content.Context;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.geolocatorapplication.R;\r\n\r\nimport java.util.List;\r\n\r\npublic class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {\r\n    Context context;\r\n    List<String>names;\r\n    public RestaurantAdapter(Context context,List<String> names){\r\n        this.context=context;\r\n        this.names=names;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view= LayoutInflater.from(context).inflate(R.layout.list_item,null,false);\r\n        return new ViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {\r\n        holder.name.setText(names.get(position));\r\n        holder.delete.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                names.remove(position);\r\n                notifyDataSetChanged();\r\n            }\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return names.size();\r\n    }\r\n\r\n    public class ViewHolder extends RecyclerView.ViewHolder{\r\n    ImageView delete;\r\n    TextView name;\r\n\r\n    public ViewHolder(@NonNull View itemView) {\r\n        super(itemView);\r\n        delete=itemView.findViewById(R.id.delete);\r\n        name=itemView.findViewById(R.id.name);\r\n    }\r\n}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/geolocatorapplication/Adapters/RestaurantAdapter.java	(revision 3cc0078fa0d59e1f90e8909eba462656f80ce452)
++++ app/src/main/java/com/geolocatorapplication/Adapters/RestaurantAdapter.java	(date 1617967325638)
+@@ -47,13 +47,13 @@
+     }
+ 
+     public class ViewHolder extends RecyclerView.ViewHolder{
+-    ImageView delete;
+-    TextView name;
++        ImageView delete;
++        TextView name;
+ 
+-    public ViewHolder(@NonNull View itemView) {
+-        super(itemView);
+-        delete=itemView.findViewById(R.id.delete);
+-        name=itemView.findViewById(R.id.name);
+-    }
+-}
+-}
++        public ViewHolder(@NonNull View itemView) {
++            super(itemView);
++            delete=itemView.findViewById(R.id.delete);
++            name=itemView.findViewById(R.id.name);
++        }
++    }
++}
+\ No newline at end of file

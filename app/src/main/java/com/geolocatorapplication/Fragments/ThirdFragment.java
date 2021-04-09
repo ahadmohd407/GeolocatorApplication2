@@ -1,5 +1,3 @@
-
-
 package com.geolocatorapplication.Fragments;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -117,4 +115,3 @@ public class ThirdFragment extends DialogFragment implements View.OnClickListene
         }
     }
 }
-

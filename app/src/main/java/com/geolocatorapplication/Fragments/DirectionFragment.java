@@ -51,9 +51,9 @@ public class DirectionFragment extends Fragment {
                     double lng = geoPoint.getLongitude ();
                     LatLng userLoc = new LatLng(lat, lng);
                     googleMap.addMarker(new MarkerOptions().position(userLoc).title("Your Location"));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,15));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLoc,14));
 
-                    googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+                  //  googleMap.animateCamera(CameraUpdateFactory.zoomIn());
                 }
             });
 

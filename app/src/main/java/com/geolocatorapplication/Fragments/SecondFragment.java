@@ -27,7 +27,7 @@ public class SecondFragment extends Fragment {
 // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_second, container, false);
 // get the reference of Button
-        secondButton = (Button) view.findViewById(R.id.thirdButton);
+        secondButton = (Button) view.findViewById(R.id.secondButton);
 // perform setOnClickListener on second Button
         secondButton.setOnClickListener(new View.OnClickListener() {
             @Override
