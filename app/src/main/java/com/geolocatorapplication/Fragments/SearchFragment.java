@@ -1,5 +1,6 @@
 package com.geolocatorapplication.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ public class SearchFragment extends Fragment {
     RecyclerView recyclerView,all_restaurants;
     RestaurantAdapter adapter;
     SearchAdapter searchAdapter;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     List<Restaurants>res_names;
     FirebaseFirestore db;
     public SearchFragment() {
