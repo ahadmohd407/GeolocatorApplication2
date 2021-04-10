@@ -73,7 +73,10 @@ public class Signup_Main extends Fragment {
                                 }
                                 else {
 
-                                    getActivity(). getFragmentManager(). popBackStack();
+                                    ThirdFragment nextFrag= new ThirdFragment();
+                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+                                            .commit();
 //                                     String value = getArguments().getString("Location");
 //                                    FirebaseFirestore db=FirebaseFirestore.getInstance();
 
@@ -106,6 +109,7 @@ public class Signup_Main extends Fragment {
                     fragmentTransaction.replace(R.id.frameLayout,NAME).commit();
                 }
             });
+
         return  view;}
 
     }

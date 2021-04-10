@@ -46,31 +46,6 @@ public class Signup_Login extends Fragment {
             btnSignIn = view.findViewById(R.id.button2);
             tvSignUp = view.findViewById(R.id.textView);
 
-            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                    if( mFirebaseUser != null ){
-                        Toast.makeText(getActivity(),"You are logged in",Toast.LENGTH_SHORT).show();
-//                        FragmentManager fragmentManager = getFragmentManager();
-//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                        Signup_Home NAME = new Signup_Home();
-//                        fragmentTransaction.replace(R.id.frameLayout,NAME);
-
-//                        Signup_Home nextFrag= new Signup_Home();
-//                        getActivity().getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-//                                .addToBackStack(null)
-//                                .commit();
-                        getActivity(). getFragmentManager(). popBackStack();
-
-                    }
-                    else{
-                        Toast.makeText(getActivity(),"Please Login",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            };
-
             btnSignIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,7 +78,11 @@ public class Signup_Login extends Fragment {
 //                                    getActivity().getSupportFragmentManager().beginTransaction()
 //                                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
 //                                            .commit();
-                                    getActivity(). getFragmentManager(). popBackStack();
+                                    ThirdFragment nextFrag= new ThirdFragment();
+                                    getActivity().getSupportFragmentManager().beginTransaction()
+                                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+                                            .disallowAddToBackStack()
+                                            .commit();
 
 
                                 }
@@ -128,17 +107,11 @@ public class Signup_Login extends Fragment {
 
                     Signup_Main nextFrag= new Signup_Main();
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-                            .addToBackStack(null)
+                            .replace(R.id.frameLayout, nextFrag)
+                            .disallowAddToBackStack()
                             .commit();
 
                 }
             });
         return view;}
-
-        @Override
-        public void onStart() {
-            super.onStart();
-            mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-        }
     }

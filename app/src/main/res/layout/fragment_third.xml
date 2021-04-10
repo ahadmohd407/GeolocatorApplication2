@@ -33,6 +33,7 @@
     <TextView
         android:id="@+id/user_text"
         android:layout_width="match_parent"
+        android:textAlignment="center"
         android:visibility="gone"
         android:layout_height="wrap_content"
         android:text="Welcome User"
