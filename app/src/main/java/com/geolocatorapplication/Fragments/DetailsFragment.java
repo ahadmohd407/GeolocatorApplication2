@@ -10,25 +10,34 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.geolocatorapplication.Adapters.Restaurants;
 import com.geolocatorapplication.Adapters.Reviews;
 import com.geolocatorapplication.Adapters.ReviewsAdapter;
 import com.geolocatorapplication.R;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -114,8 +123,15 @@ public class DetailsFragment extends Fragment {
         //************************************************************//
         listofreviews=view.findViewById(R.id.listofreviews);
         res_names=new ArrayList<>();
-        res_names.add(new Reviews("Ahad","Delicious Food!!"));
-        res_names.add(new Reviews("Amit","Awesome Food!!"));
+        db.collection(value).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot snapshots:queryDocumentSnapshots){
+                    res_names.add(new Reviews(snapshots.getId(),snapshots.getString("review")));
+                    reviewsAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         reviewsAdapter=new ReviewsAdapter(getContext(),res_names);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         listofreviews.setLayoutManager(linearLayoutManager);
@@ -149,7 +165,21 @@ public class DetailsFragment extends Fragment {
                 if(!(name.getText().toString().isEmpty()&&review.getText().toString().isEmpty())){
                     String rev=review.getText().toString();
                     String username=name.getText().toString();
-                    db.collection(value).add()
+                    HashMap<String,String>data=new HashMap<>();
+                    data.put("review",rev);
+                    db.collection(value).document(username).set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isComplete()){
+                                Toast.makeText(getContext(),"Review added",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnCanceledListener(new OnCanceledListener() {
+                        @Override
+                        public void onCanceled() {
+                            Toast.makeText(getContext(),"Some error ocuured. Please try again later",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     dialog.dismiss();
                 }
             }
