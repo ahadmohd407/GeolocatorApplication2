@@ -1,10 +1,13 @@
 package com.geolocatorapplication.Fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import com.geolocatorapplication.Adapters.Reviews;
 import com.geolocatorapplication.Adapters.ReviewsAdapter;
 import com.geolocatorapplication.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,7 +46,9 @@ public class DetailsFragment extends Fragment {
     RecyclerView listofreviews;
     Button revButton;
     Button direction;
-
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
+     String value;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,8 +58,10 @@ public class DetailsFragment extends Fragment {
         final TextView restaurantsAddress = view.findViewById(R.id.restaurantAddress);
         TextView restaurantsTimings = view.findViewById(R.id.restaurantTimings);
         direction=view.findViewById(R.id.directions);
+        mAuth=FirebaseAuth.getInstance();
+        db=FirebaseFirestore.getInstance();
         final FirebaseFirestore db= FirebaseFirestore.getInstance();
-        final String value = getArguments().getString("Location");
+        value = getArguments().getString("Location");
         direction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,18 +86,29 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-//        revButton = (Button) view.findViewById(R.id.thirdButton);
-//
-//        revButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Signup_Login nextFrag= new Signup_Login();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-//                        .addToBackStack(null)
-//                        .commit();
-//            }
-//        });
+        revButton = (Button) view.findViewById(R.id.thirdButton);
+
+        revButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mAuth.getCurrentUser()==null) {
+                    Signup_Login nextFrag = new Signup_Login();
+                    Bundle args = new Bundle();
+                    args.putString("Location",value);
+                    nextFrag.setArguments(args);
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+                            .commit();
+                }
+                else{
+//                    Signup_Home main = new Signup_Home();
+//                    getActivity().getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.frameLayout, main, "findThisFragment")
+//                            .commit();
+                    showDialog();
+                }
+            }
+        });
 
 
         //************************************************************//
@@ -107,6 +126,35 @@ public class DetailsFragment extends Fragment {
 
         //****************************************************//
         return view;
+    }
+    public void showDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+        View view1=getLayoutInflater().inflate(R.layout.layout_dialog,null);
+        final EditText name=view1.findViewById(R.id.edit_Name);
+        final EditText review=view1.findViewById(R.id.edit_Review);
+        Button submit=view1.findViewById(R.id.submitReview);
+        Button cancel=view1.findViewById(R.id.cancel);
+        builder.setView(view1);
+        final AlertDialog dialog=builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!(name.getText().toString().isEmpty()&&review.getText().toString().isEmpty())){
+                    String rev=review.getText().toString();
+                    String username=name.getText().toString();
+                    db.collection(value).add()
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialog.show();
     }
 }
 

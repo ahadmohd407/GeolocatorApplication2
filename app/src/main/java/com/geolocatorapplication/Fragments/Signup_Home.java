@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * Use the {@link Signup_Home#} factory method to
  * create an instance of this fragment.
  */
-public class Signup_Home extends Fragment implements View.OnClickListener
+public class Signup_Home extends Fragment
 {
     Button btnLogout;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,21 +28,21 @@ public class Signup_Home extends Fragment implements View.OnClickListener
                     btnLogout.setOnClickListener((View.OnClickListener) this);
                     return view;
                 }
+//
+//    @Override
+//        public void onClick(View view) {
+//        FirebaseAuth.getInstance().signOut();
+////                    FragmentManager fragmentManager = getFragmentManager();
+////                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+////                    Signup_Login NAME = new Signup_Login();
+////                    fragmentTransaction.replace(R.id.frameLayout,NAME);
+//        Signup_Login nextFrag= new Signup_Login();
+//        getActivity().getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.frameLayout, nextFrag,"Find Next Fragment")
+//                .addToBackStack(null)
+//                .commit();
 
-    @Override
-        public void onClick(View view) {
-        FirebaseAuth.getInstance().signOut();
-//                    FragmentManager fragmentManager = getFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    Signup_Login NAME = new Signup_Login();
-//                    fragmentTransaction.replace(R.id.frameLayout,NAME);
-        Signup_Login nextFrag= new Signup_Login();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, nextFrag,"Find Next Fragment")
-                .addToBackStack(null)
-                .commit();
-
-    }
+ //   }
 
 
 }

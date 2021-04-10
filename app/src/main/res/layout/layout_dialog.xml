@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:padding="16dp">
-    <EditText
-        android:id="@+id/edit_Name"
+    <TextView
+        android:id="@+id/review"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name" />
+        android:text="Write a Review"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:padding="5dp"/>
+
+    <EditText
+        android:id="@+id/edit_Name"
+        android:layout_below="@+id/review"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:layout_margin="5dp"
+        android:textColor="@color/black"
+        android:textColorHint="#CC000000"
+        android:hint="Your Name" />
     <EditText
         android:id="@+id/edit_Review"
         android:layout_below="@id/edit_Name"
         android:layout_alignParentStart="true"
-        android:hint="Review"
+        android:hint="Add a review"
         android:minLines="3"
+        android:textColor="@color/black"
+        android:paddingBottom="5dp"
+        android:textSize="20sp"
+        android:textColorHint="#CC000000"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +45,37 @@
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical"
         android:lines="6"
+        android:layout_margin="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:scrollHorizontally="false"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_Review"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:background="#CCFFFFFF"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            />
+
+        <Button
+            android:id="@+id/submitReview"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:background="#CCFFFFFF"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            />
+</LinearLayout>
 </RelativeLayout>
