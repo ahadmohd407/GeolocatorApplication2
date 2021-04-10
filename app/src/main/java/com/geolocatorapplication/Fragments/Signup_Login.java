@@ -57,11 +57,12 @@ public class Signup_Login extends Fragment {
 //                        Signup_Home NAME = new Signup_Home();
 //                        fragmentTransaction.replace(R.id.frameLayout,NAME);
 
-                        Signup_Home nextFrag= new Signup_Home();
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-                                .addToBackStack(null)
-                                .commit();
+//                        Signup_Home nextFrag= new Signup_Home();
+//                        getActivity().getSupportFragmentManager().beginTransaction()
+//                                .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+//                                .addToBackStack(null)
+//                                .commit();
+                        getActivity(). getFragmentManager(). popBackStack();
 
                     }
                     else{
@@ -98,11 +99,12 @@ public class Signup_Login extends Fragment {
 //                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //                                    Signup_Home NAME = new Signup_Home();
 //                                    fragmentTransaction.replace(R.id.frameLayout,NAME);
-                                    Signup_Home nextFrag= new Signup_Home();
-                                    getActivity().getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
-                                            .addToBackStack(null)
-                                            .commit();
+//                                    Signup_Home nextFrag= new Signup_Home();
+//                                    getActivity().getSupportFragmentManager().beginTransaction()
+//                                            .replace(R.id.frameLayout, nextFrag, "findThisFragment")
+//                                            .commit();
+                                    getActivity(). getFragmentManager(). popBackStack();
+
 
                                 }
                             }

@@ -72,9 +72,10 @@ public class Signup_Main extends Fragment {
                                     Toast.makeText(getActivity(),"SignUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
                                 }
                                 else {
+
                                     getActivity(). getFragmentManager(). popBackStack();
-                                     String value = getArguments().getString("Location");
-                                    FirebaseFirestore db=FirebaseFirestore.getInstance();
+//                                     String value = getArguments().getString("Location");
+//                                    FirebaseFirestore db=FirebaseFirestore.getInstance();
 
 
 
