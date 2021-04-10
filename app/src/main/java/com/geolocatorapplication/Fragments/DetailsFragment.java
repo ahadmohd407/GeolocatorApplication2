@@ -122,6 +122,7 @@ public class DetailsFragment extends Fragment {
 
         //************************************************************//
         listofreviews=view.findViewById(R.id.listofreviews);
+        listofreviews.setHasFixedSize(false);
         res_names=new ArrayList<>();
         db.collection(value).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -171,6 +172,8 @@ public class DetailsFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isComplete()){
+                                res_names.add(new Reviews(name.getText().toString(),review.getText().toString()));
+                                reviewsAdapter.notifyDataSetChanged();
                                 Toast.makeText(getContext(),"Review added",Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -180,10 +183,12 @@ public class DetailsFragment extends Fragment {
                             Toast.makeText(getContext(),"Some error ocuured. Please try again later",Toast.LENGTH_SHORT).show();
                         }
                     });
+
                     dialog.dismiss();
                 }
             }
         });
+
         dialog.show();
     }
 }
