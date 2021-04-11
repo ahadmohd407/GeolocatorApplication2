@@ -1,11 +1,13 @@
 package com.geolocatorapplication.Fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -26,7 +28,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +59,7 @@ public class SearchFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_search, container, false);
         searchView=view.findViewById(R.id.searchView);
         all_restaurants=view.findViewById(R.id.all_restaurants);
-        names=new ArrayList<>();
-        names.add("Restaurant-1");
-        names.add("Restaurant-2");
-        names.add("Restaurant-3");
-        names.add("Restaurant-4");
+        loadData();
         res_names=new ArrayList<>();
         searchAdapter=new SearchAdapter(getContext(),res_names);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
@@ -79,20 +80,17 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
-                if(!names.contains(query)) {
-                    //1.check in database
-
-
                     db.collection("restaurants")
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
+                                        int flag=0;
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             if(document.getId().equals(query))
                                             {
-
+                                                flag=1;
                                                 FragmentManager fragmentManager = getFragmentManager();
                                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                                 DetailsFragment NAME = new DetailsFragment();
@@ -104,13 +102,19 @@ public class SearchFragment extends Fragment {
                                                 fragmentTransaction.commit();
                                             }
                                         }
+                                        if(flag==0){
+                                            Toast.makeText(getContext(),"Sorry, this restaurant doesn't exist in our database",Toast.LENGTH_SHORT).show();
+
+                                        }
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
                                 }
                             });
+                if(!names.contains(query)) {
                     names.add(query);
                     adapter.notifyDataSetChanged();
+                    saveData();
                 }
                 return true;
             }
@@ -127,5 +131,24 @@ public class SearchFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+    private void saveData(){
+        sharedPreferences=getActivity().getSharedPreferences("recent", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        Gson gson=new Gson();
+        String json=gson.toJson(names);
+        editor.putString("task",json);
+        editor.apply();
+
+    }
+    private  void loadData(){
+        sharedPreferences=getActivity().getSharedPreferences("recent", Context.MODE_PRIVATE);
+        Gson gson=new Gson();
+        String json=sharedPreferences.getString("task",null);
+        Type type=new TypeToken<ArrayList<String>>(){}.getType();
+        names=gson.fromJson(json,type);
+        if(names==null){
+            names=new ArrayList<>();
+        }
     }
 }

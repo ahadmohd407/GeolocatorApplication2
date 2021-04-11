@@ -144,6 +144,7 @@ public class DetailsFragment extends Fragment {
         //****************************************************//
         return view;
     }
+
     public void showDialog(){
         AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
         View view1=getLayoutInflater().inflate(R.layout.layout_dialog,null);
@@ -191,6 +192,8 @@ public class DetailsFragment extends Fragment {
 
         dialog.show();
     }
+
+
 }
 
 

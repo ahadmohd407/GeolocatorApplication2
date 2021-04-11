@@ -64,11 +64,7 @@ private FirebaseUser currentUser;
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount()>0){
-            getSupportFragmentManager().popBackStack();
-        }
-        else
-        super.onBackPressed();
+        getSupportFragmentManager().popBackStack();
     }
 
     private void loadFragment(Fragment fragment) {
