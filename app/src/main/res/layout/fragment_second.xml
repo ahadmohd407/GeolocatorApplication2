@@ -2,30 +2,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.geolocatorapp.SecondFragment">
+    android:background="@drawable/gradient_bg"
+   >
 
     <!--TextView and Button displayed in Second Fragment -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="181dp"
+        android:layout_above="@+id/aboutus"
+        android:layout_marginBottom="-81dp"
+        android:src="@drawable/dit" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="This is Favourites "
+        android:text="ABOUT US"
+        android:id="@+id/aboutus"
         android:textColor="@color/black"
         android:textSize="25sp" />
 
-    <Button
-        android:id="@+id/secondButton"
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/green"
-        android:text="Favourites"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_below="@+id/aboutus"
+        android:layout_marginTop="55dp"
+        android:textColor="@color/black"
+        android:text="We are DITIANS with an aim to build an application to search the local restaurants near
+our college DIT which could not be found on Google Maps as they are not well known.
+\nWe as a team have put an effort to put local restaurants at the forefront.
+\n\n\n\Regards,\n
+Aditya, Ahad, Mustafa and Siddhant" />
 
 </RelativeLayout>
 

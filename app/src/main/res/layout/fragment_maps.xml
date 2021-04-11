@@ -3,21 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:background="@color/white"
-    tools:context=".Fragments.MapsFragment" >
+    android:padding="11dp"
+    android:background="@drawable/gradient_bg"
+    tools:context=".Fragments.MapsFragment"
+    >
     <ViewFlipper
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/slider"
         android:layout_marginBottom="5dp"
         android:autoStart="true"
-        android:flipInterval="2500">
+        android:flipInterval="2500"
+        >
 <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scaleType="fitXY"
     android:src="@drawable/food_image_1"
+
     />
         <ImageView
             android:layout_width="match_parent"
@@ -45,4 +50,5 @@
         android:layout_below="@+id/slider"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
 </RelativeLayout>

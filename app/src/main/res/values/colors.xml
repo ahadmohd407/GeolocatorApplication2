@@ -9,4 +9,13 @@
     <color name="button_background_color">#925</color>
     <color name="blue_grey">#607d8b</color>
     <color name="emphasis">#31b6e7</color>
+        <color name="colorPrimary">@color/endGColor</color>
+        <color name="colorPrimaryDark">@color/endGColor</color>
+        <color name="colorAccent">#c0ca33</color>
+        <color name="yellowBg">#FFDE03</color>
+    <color name="startGColor">#3a1c71</color>
+    <color name="centerGColor">#d76d77</color>
+    <color name="endGColor">#ffaf7b</color>
+
+
 </resources>

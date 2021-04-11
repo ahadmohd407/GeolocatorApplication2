@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/gradient_bg"
     android:padding="16dp">
     <TextView
         android:id="@+id/review"
@@ -60,10 +60,11 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:background="#CCFFFFFF"
+            android:background="@color/cardview_shadow_start_color"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_margin="10dp"
+
             />
 
         <Button
@@ -72,7 +73,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Submit"
-            android:background="#CCFFFFFF"
+            android:background="@color/cardview_shadow_start_color"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_margin="10dp"

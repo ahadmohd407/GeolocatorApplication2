@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_marginLeft="8dp"
-    android:background="@color/white"
     android:layout_marginTop="8dp"
     android:layout_marginRight="8dp"
+
+    android:background="@drawable/gradient_bg"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <TextView
-        android:background="#ADD8E6"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/black"
         android:id="@+id/restaurantName"
         android:textSize="20sp"
@@ -77,7 +78,7 @@
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_baseline_rate_review_24"
             android:text="Write a Review"
-            android:background="#ADD8E6"
+            android:background="@android:color/transparent"
             android:textColor="@color/black"
             />
         <View
@@ -87,8 +88,8 @@
 
         <Button
             android:id="@+id/directions"
-            android:background="#ADD8E6"
             android:textColor="@color/black"
+            android:background="@android:color/transparent"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,7 +102,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RECENT REVIEWS"
-        android:background="#ADD8E6"
         android:textColor="@color/black"
         />
     <androidx.recyclerview.widget.RecyclerView
