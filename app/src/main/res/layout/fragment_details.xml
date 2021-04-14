@@ -10,18 +10,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <TextView
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/black"
         android:id="@+id/restaurantName"
-        android:textSize="20sp"
-        android:text="RESTAURANT NAME"
-        android:textAlignment="center"
-        android:layout_marginBottom="8dp"
-        android:padding="10dp"
-        android:fontFamily="sans-serif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginBottom="8dp"
+        android:background="#E7A773"
+        android:fontFamily="@font/chewy"
+        android:padding="10dp"
+        android:text="RESTAURANT NAME"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/restaurantAddress"
@@ -97,15 +97,18 @@
             android:text="Navigate"/>
 
     </LinearLayout>
+
     <TextView
         style="@style/sectionHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#E7A773"
+        android:fontFamily="@font/chewy"
         android:text="RECENT REVIEWS"
-        android:textColor="@color/black"
-        />
+        android:textColor="@color/black" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listofreviews"
+        android:background="#E5E5E5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

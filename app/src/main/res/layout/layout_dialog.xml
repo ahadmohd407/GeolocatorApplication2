@@ -4,15 +4,17 @@
     android:layout_height="wrap_content"
     android:background="@drawable/gradient_bg"
     android:padding="16dp">
+
     <TextView
         android:id="@+id/review"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Write a Review"
-        android:textSize="20sp"
-        android:textColor="@color/black"
+        android:fontFamily="@font/aladin"
         android:gravity="center"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:text="Write a Review"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/edit_Name"
@@ -78,5 +80,5 @@
             android:textSize="20sp"
             android:layout_margin="10dp"
             />
-</LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
