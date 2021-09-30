@@ -70,7 +70,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot snapshots:queryDocumentSnapshots){
-                    res_names.add(new Restaurants(snapshots.getId(),"4/5"));
+                    res_names.add(new Restaurants(snapshots.getId(),snapshots.getString("ratings")));
                     searchAdapter.notifyDataSetChanged();
                 }
             }
